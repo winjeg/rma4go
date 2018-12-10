@@ -144,21 +144,21 @@ func (stat *RedisStat) Merge(meta KeyMeta) {
 }
 
 func (stat *RedisStat) Print() {
-	color.Green("all keys statistics\n\n")
+	color.Green("\n\nall keys statistics\n\n")
 	stat.All.printTable()
-	color.Green("string keys statistics\n\n")
+	color.Green("\n\nstring keys statistics\n\n")
 	stat.String.printTable()
-	color.Green("list keys statistics\n\n")
+	color.Green("\n\nlist keys statistics\n\n")
 	stat.List.printTable()
-	color.Green("hash keys statistics\n\n")
+	color.Green("\n\nhash keys statistics\n\n")
 	stat.Hash.printTable()
-	color.Green("set keys statistics\n\n")
+	color.Green("\n\nset keys statistics\n\n")
 	stat.Set.printTable()
-	color.Green("zset keys statistics\n\n")
+	color.Green("\n\nzset keys statistics\n\n")
 	stat.ZSet.printTable()
-	color.Green("other keys statistics\n\n")
+	color.Green("\n\nother keys statistics\n\n")
 	stat.Other.printTable()
-	color.Green("big keys statistics\n\n")
+	color.Green("\n\nbig keys statistics\n\n")
 	stat.BigKeys.printTable()
 }
 
