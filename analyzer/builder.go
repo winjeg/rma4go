@@ -11,6 +11,8 @@ import (
 const (
 	defaultSize = 128
 	compactNum  = 30
+	maxLeftNum =  150
+	minKeyLenLower = 2
 	minKeyLen   = 5
 	// expire section
 	Second = 1000000000
@@ -231,7 +233,7 @@ func (stat *KeyStat) compact() {
 		}
 	}
 	shrinkTo--
-	for len(tmpMap) > compactNum && shrinkTo >= minKeyLen {
+	for (len(tmpMap) > compactNum && shrinkTo >= minKeyLen) || (len(tmpMap) > maxLeftNum && shrinkTo >= minKeyLenLower) {
 		tnMap := make(map[string][]string, defaultSize)
 		for k := range tmpMap {
 			// shrink
