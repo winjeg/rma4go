@@ -112,6 +112,8 @@ big keys statistics
 ```
 rendered by markdown 
 total count 4004
+
+
 all keys statistics
 
 |                    PATTERN                    | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
@@ -144,6 +146,8 @@ all keys statistics
 | time-64*                                      |      87 |      781 |      1131 |              0 |             0 |              0 |               0 |           87 |
 | time-5*                                       |     168 |     1516 |      2184 |              0 |             0 |              0 |               0 |          168 |
 | total                                         |    4004 |    53422 |   7832490 |              0 |             0 |              0 |               0 |         4004 |
+
+
 string keys statistics
 
 |                    PATTERN                    | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
@@ -167,6 +171,8 @@ string keys statistics
 | TOP_TEN_NEW_tersssss*                         |       1 |       20 |      1529 |              0 |             0 |              0 |               0 |            1 |
 | time-3*                                       |     202 |     1925 |      2626 |              0 |             0 |              0 |               0 |          202 |
 | total                                         |    3989 |    53042 |     46253 |              0 |             0 |              0 |               0 |         3989 |
+
+
 list keys statistics
 
 |                  PATTERN                  | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
@@ -175,6 +181,8 @@ list keys statistics
 | DS_MAGIC_SUCC_2017-06-22*                 |       1 |       24 |       415 |              0 |             0 |              0 |               0 |            1 |
 | DS_PRXXBCD_LIST*                          |       1 |       15 |     17208 |              0 |             0 |              0 |               0 |            1 |
 | total                                     |       3 |       79 |   7710455 |              0 |             0 |              0 |               0 |            3 |
+
+
 hash keys statistics
 
 |           PATTERN            | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
@@ -188,6 +196,8 @@ hash keys statistics
 | abcdeferCounter_2017-09-01*  |       1 |       26 |         0 |              0 |             0 |              0 |               0 |            1 |
 | tersssssEasyTaskCounter*     |       1 |       23 |         0 |              0 |             0 |              0 |               0 |            1 |
 | total                        |       8 |      198 |     75782 |              0 |             0 |              0 |               0 |            8 |
+
+
 set keys statistics
 
 |             PATTERN              | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
@@ -197,6 +207,8 @@ set keys statistics
 | canVisitNewabcdef1234PageLevels* |       1 |       31 |         0 |              0 |             0 |              0 |               0 |            1 |
 | tersssss_bind_phone_userid*      |       1 |       26 |         0 |              0 |             0 |              0 |               0 |            1 |
 | total                            |       4 |      103 |         0 |              0 |             0 |              0 |               0 |            4 |
+
+
 zset keys statistics
 
 | PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
@@ -207,14 +219,14 @@ other keys statistics
 | PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
 |---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
 | total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
+
+
 big keys statistics
 
 |                  PATTERN                  | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
 |-------------------------------------------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
 | XXXXXXXXXXXXXX_STATISTICS_MIGRATION_LIST* |       1 |       40 |   7692832 |              0 |             0 |              0 |               0 |            1 |
 | total                                     |       1 |       40 |   7692832 |              0 |             0 |              0 |               0 |            1 |
-
-
 ## maintain
 1. welcome to contribute to this repo
 2. welcome to submit issues for this repo
