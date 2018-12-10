@@ -1,19 +1,33 @@
 package main
 
 import (
-	"github.com/fatih/color"
-	"time"
+	"flag"
+	"github.com/winjeg/rma4go/analyzer"
+	"github.com/winjeg/rma4go/client"
+	"github.com/winjeg/rma4go/cmder"
 )
 
 func main() {
-	// Print with default helper functions
-	color.Cyan("Prints text in cyan.")
+	flag.Parse()
+	if cmder.ShowHelp() {
+		flag.Usage()
+		return
+	}
+	printKeyStat()
+}
 
-	// A newline will be appended automatically
-	color.Blue("Prints %s in blue.", "text")
 
-	// These are using the default foreground colors
-	color.Red("We have red")
-	color.Magenta("And many others ..")
-	time.Sleep(time.Hour)
+func printKeyStat() {
+	h := cmder.GetHost()
+	a := cmder.GetAuth()
+	p := cmder.GetPort()
+	cli := client.BuildRedisClient(client.ConnInfo{
+		Host: h,
+		Auth: a,
+		Port: p,
+	}, cmder.GetDb())
+
+	stat := analyzer.ScanAllKeys(cli)
+	stat.Print()
+
 }

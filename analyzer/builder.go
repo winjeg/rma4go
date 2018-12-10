@@ -1,6 +1,13 @@
 // data structures
 package analyzer
 
+import (
+	"fmt"
+	"github.com/fatih/color"
+	"github.com/olekukonko/tablewriter"
+	"os"
+)
+
 const (
 	defaultSize = 128
 	compactNum  = 30
@@ -16,14 +23,17 @@ const (
 	B  = 1
 	KB = B * 1024
 	MB = KB * 1024
-)
-const (
+
+
 	typeString = "string"
 	typeHash   = "hash"
 	typeList   = "list"
 	typeSet    = "set"
 	typeZSet   = "zset"
 	typeOther  = "other"
+
+
+	metricSize = 8
 )
 
 type KeyMeta struct {
@@ -81,6 +91,19 @@ func (m *Metrics) MergeMeta(meta KeyMeta) {
 	}
 }
 
+func (m *Metrics) data()[]string {
+	result := make([]string, 0, metricSize)
+	result = append(result, fmt.Sprintf("%d", m.KeyCount))
+	result = append(result, fmt.Sprintf("%d", m.KeySize))
+	result = append(result, fmt.Sprintf("%d", m.DataSize))
+	result = append(result, fmt.Sprintf("%d", m.ExpireInHour))
+	result = append(result, fmt.Sprintf("%d", m.ExpireInDay))
+	result = append(result, fmt.Sprintf("%d", m.ExpireInWeek))
+	result = append(result, fmt.Sprintf("%d", m.ExpireOutWeek))
+	result = append(result, fmt.Sprintf("%d", m.KeyNeverExpire))
+	return result
+}
+
 // total stat and distributions
 type KeyStat struct {
 	Distribution map[string]Distribution `json:"distribution"`
@@ -118,6 +141,49 @@ func (stat *RedisStat) Merge(meta KeyMeta) {
 	default:
 		stat.Other.Merge(meta)
 	}
+}
+
+func (stat *RedisStat) Print() {
+	color.Green("all keys statistics\n\n")
+	stat.All.printTable()
+	color.Green("string keys statistics\n\n")
+	stat.String.printTable()
+	color.Green("list keys statistics\n\n")
+	stat.List.printTable()
+	color.Green("hash keys statistics\n\n")
+	stat.Hash.printTable()
+	color.Green("set keys statistics\n\n")
+	stat.Set.printTable()
+	color.Green("zset keys statistics\n\n")
+	stat.ZSet.printTable()
+	color.Green("other keys statistics\n\n")
+	stat.Other.printTable()
+	color.Green("big keys statistics\n\n")
+	stat.BigKeys.printTable()
+}
+
+func (ks *KeyStat) printTable() {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"pattern", "key num", "key size", "data size", "expire in hour", "expire in day",
+		"expire in week", "expire out week", "never expire"})
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+
+	for _, v := range ks.Distribution {
+		table.Append(v.tableData())
+	}
+	footer := make([]string, 0, metricSize + 1)
+	footer = append(footer, "total")
+	footer = append(footer, ks.data()...)
+	table.Append(footer)
+	table.Render()
+}
+
+func (dist *Distribution) tableData() []string {
+	result := make([]string, 0, metricSize + 1)
+	result = append(result, dist.KeyPattern)
+	result = append(result, dist.data()...)
+	return result
 }
 
 func (stat *KeyStat) Merge(meta KeyMeta) {
@@ -206,6 +272,7 @@ func (stat *KeyStat) compact() {
 			var nd Distribution
 			for _, dk := range v {
 				d := distMap[dk]
+				nd.KeyPattern = k + "*"
 				nd.KeyCount += d.KeyCount
 				nd.KeySize += d.KeySize
 				nd.DataSize += d.DataSize
@@ -218,7 +285,9 @@ func (stat *KeyStat) compact() {
 			dists[k] = nd
 		} else {
 			for _, dk := range v {
-				dists[dk] = distMap[dk]
+				nd := distMap[dk]
+				nd.KeyPattern = dk + "*"
+				dists[dk] = nd
 			}
 		}
 	}

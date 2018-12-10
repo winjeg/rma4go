@@ -4,14 +4,7 @@ package analyzer
 import (
 	"fmt"
 	"github.com/go-redis/redis"
-	"github.com/winjeg/rma4go/client"
 )
-
-var Client = client.BuildRedisClient(client.ConnInfo{
-	Host: "10.1.9.164",
-	Port: 7300,
-	Auth: "",
-}, 15)
 
 const (
 	scanCount = 64
