@@ -1,12 +1,18 @@
 package analyzer
 
-import "testing"
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"testing"
+)
 
 func TestBuildRedisStat(t *testing.T) {
-	a := make(chan KeyMeta)
-	meta := KeyMeta{
-		Key:"dassdas",
+	s := ScanAllKeys(Client)
+	d, er := json.Marshal(s)
+	if er != nil {
+		fmt.Println(er.Error())
 	}
-	BuildRedisStat(a)
-	a <- meta
+	ioutil.WriteFile(`E:\desktop\a.json`, d, os.ModeAppend)
 }
