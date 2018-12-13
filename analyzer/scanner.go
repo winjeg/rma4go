@@ -3,7 +3,7 @@ package analyzer
 
 import (
 	"fmt"
-	"github.com/go-redis/redis"
+	"github.com/winjeg/redis"
 )
 
 const (

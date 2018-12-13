@@ -2,7 +2,7 @@
 package client
 
 import (
-	"github.com/go-redis/redis"
+	"github.com/winjeg/redis"
 
 	"fmt"
 )
