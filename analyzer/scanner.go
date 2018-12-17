@@ -7,11 +7,17 @@ import (
 )
 
 const (
-	scanCount = 64
+	scanCount   = 64
 	compactSize = 40960
+
+	// cause the real memory used by redis is a little bigger than the content
+	// here we plus some extra space for different key types, it's not accurate but the result will be better
+	baseSize    = 50
+	elementSize = 4
 )
 
 func ScanAllKeys(cli redis.UniversalClient) RedisStat {
+	supportMemUsage := checkSupportMemUsage(cli)
 	var stat RedisStat
 	scmd := cli.Scan(0, "*", scanCount)
 	count := 0
@@ -19,18 +25,18 @@ func ScanAllKeys(cli redis.UniversalClient) RedisStat {
 		ks, cursor, err := scmd.Result()
 		if cursor == 0 && len(ks) > 0 {
 			count += len(ks)
-			MergeKeyMeta(cli, ks, &stat)
+			MergeKeyMeta(cli, supportMemUsage, ks, &stat)
 		}
 		// MergeKeyMeta(cli, ks, &stat)
 		for cursor > 0 && err == nil {
-			MergeKeyMeta(cli, ks, &stat)
+			MergeKeyMeta(cli, supportMemUsage, ks, &stat)
 			count += len(ks)
 			scmd = cli.Scan(cursor, "*", scanCount)
 			ks, cursor, err = scmd.Result()
 			if cursor == 0 {
 				if len(ks) > 0 {
 					count += len(ks)
-					MergeKeyMeta(cli, ks, &stat)
+					MergeKeyMeta(cli, supportMemUsage, ks, &stat)
 				}
 			}
 		}
@@ -38,14 +44,13 @@ func ScanAllKeys(cli redis.UniversalClient) RedisStat {
 		if len(stat.All.Distribution) > compactSize {
 			stat.Compact()
 		}
-
 	}
 	fmt.Println("total count", count)
 	stat.Compact()
 	return stat
 }
 
-func MergeKeyMeta(cli redis.UniversalClient, ks []string, stat *RedisStat) {
+func MergeKeyMeta(cli redis.UniversalClient, supportMemUsage bool, ks []string, stat *RedisStat) {
 	for i := range ks {
 		var meta KeyMeta
 		meta.Key = ks[i]
@@ -59,27 +64,39 @@ func MergeKeyMeta(cli redis.UniversalClient, ks []string, stat *RedisStat) {
 		if e != nil {
 			continue
 		}
+		if supportMemUsage {
+			meta.DataSize = getLenByMemUsage(cli, ks[i])
+		}
 		switch t {
 		case typeString:
 			meta.Type = typeString
-			sl, err := cli.StrLen(ks[i]).Result()
-			if err != nil {
-				sl = 0
+			if !supportMemUsage {
+				sl, err := cli.StrLen(ks[i]).Result()
+				if err != nil {
+					sl = 0
+				}
+				meta.DataSize = sl + baseSize
 			}
-			meta.DataSize = sl
 		case typeList:
 			meta.Type = typeList
-			meta.DataSize = getListLen(ks[i], cli)
+			if !supportMemUsage {
+				meta.DataSize = getListLen(ks[i], cli)
+			}
 		case typeHash:
 			meta.Type = typeHash
-			meta.DataSize = getLen(ks[i], cli, typeHash)
+			if !supportMemUsage {
+				meta.DataSize = getLen(ks[i], cli, typeHash)
+			}
 		case typeSet:
 			meta.Type = typeSet
-			meta.DataSize = getLen(ks[i], cli, typeSet)
+			if !supportMemUsage {
+				meta.DataSize = getLen(ks[i], cli, typeSet)
+			}
 		case typeZSet:
 			meta.Type = typeZSet
-			meta.DataSize = getLen(ks[i], cli, typeZSet)
-
+			if !supportMemUsage {
+				meta.DataSize = getLen(ks[i], cli, typeZSet)
+			}
 		default:
 			meta.Type = typeOther
 			s, err := cli.Dump(ks[i]).Result()
@@ -103,9 +120,9 @@ func getListLen(key string, cli redis.UniversalClient) int64 {
 		if err != nil {
 			continue
 		}
-		totalLen += int64(len(d))
+		totalLen += int64(len(d)) + elementSize
 	}
-	return totalLen
+	return totalLen + baseSize
 }
 
 func getLen(key string, cli redis.UniversalClient, t string) int64 {
@@ -140,10 +157,18 @@ func getLen(key string, cli redis.UniversalClient, t string) int64 {
 			case typeZSet:
 				l = int64(len(v) + 2)
 			}
-			totalLen += l
+			totalLen += l + elementSize
 		}
 		cmd = scan(key, cursor, "*", 300)
 		ks, cursor, _ = cmd.Result()
 	}
-	return totalLen
+	return totalLen + baseSize
+}
+
+func getLenByMemUsage(cli redis.UniversalClient, key string) int64 {
+	len, err := cli.MemoryUsage(key).Result()
+	if err != nil {
+		return 0
+	}
+	return len
 }
