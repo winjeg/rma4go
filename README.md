@@ -1,6 +1,6 @@
 # rma4go
-rma4go (redis memory analyzer for golang) is a online redis memory analyzer.
-It's light and easy to use, and prints out an very pretty markdown table
+`rma4go` (redis memory analyzer for golang) is a online redis memory analyzer.
+It's light and easy to use, and prints out a pretty markdown table
 
 ## functionality
 rma4go provide statistics for redis in many dimensions, the mainly supported dimensions are listed below
