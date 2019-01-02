@@ -1,0 +1,19 @@
+language: go
+go:
+- 1.11.x
+go_import_path: github.com/winjeg/rma4go
+before_install: GO111MODULE=on go mod vendor
+script:
+- export VERSION_TAG=$(git describe --tags --abbrev=0)
+- GOOS=linux GOARCH=amd64 go build -o rma4go-${VERSION_TAG}-linux-amd64 github.com/winjeg/rma4go
+- GOOS=darwin GOARCH=amd64 go build -o rma4go-${VERSION_TAG}-darwin-amd64 github.com/winjeg/rma4go
+deploy:
+  provider: releases
+  api_key:
+    secure: ${API_KEY_SECURE}
+  file:
+    - "rma4go-${VERSION_TAG}-linux-amd64"
+    - "rma4go-${VERSION_TAG}-darwin-amd64"
+  skip_cleanup: true
+  on:
+    tags: true
