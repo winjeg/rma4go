@@ -52,19 +52,22 @@ go build .
 usage is quite simple, it prints out a table in command line in markdown format
 ```
 rma4go usage:
-rma4go -r some_host -p 6379 -a password -d 0
+standalone:  rma4go -r some_host -p 6379 -a password -d 0
+cluster:    rma4go -c "localhost:123,localhost:124,localhost:1234" -a "password"
 ======================================================
   -H string
-        address of a redis (default "localhost")
+    	address of a redis (default "localhost")
   -a string
-        password/auth of the redis
+    	password/auth of the redis
+  -c string
+    	cluster info separated by comma, like localhost:123,localhost:456
   -d int
-        db of the redis to analyze
-  -h    help content
+    	db of the redis to analyze
+  -h	help content
   -p int
-        port of the redis (default 6379)
+    	port of the redis (default 6379)
   -r string
-        address of a redis (default "localhost")
+    	address of a redis (default "localhost")
 ```
 
 ## sample output

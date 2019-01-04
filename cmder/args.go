@@ -7,20 +7,23 @@ import (
 )
 
 var (
-	host	string
-	port 	int
-	auth	string
-	db		int
-	help	bool
+	host    string
+	port    int
+	auth    string
+	db      int
+	help    bool
+	cluster string
 )
 
-func init()  {
+func init() {
 	flag.BoolVar(&help, "h", false, "help content")
-	flag.StringVar(&host, "H",  "localhost", "address of a redis" )
-	flag.StringVar(&host, "r",  "localhost", "address of a redis" )
+	flag.StringVar(&host, "H", "localhost", "address of a redis")
+	flag.StringVar(&host, "r", "localhost", "address of a redis")
 	flag.IntVar(&port, "p", 6379, "port of the redis")
 	flag.StringVar(&auth, "a", "", "password/auth of the redis")
 	flag.IntVar(&db, "d", 0, "db of the redis to analyze")
+	flag.StringVar(&cluster, "c", "", "cluster info separated by comma, like localhost:123,localhost:456")
+
 	flag.Usage = usage
 }
 
@@ -31,8 +34,7 @@ func usage() {
 	flag.PrintDefaults()
 }
 
-
-func GetHost() string{
+func GetHost() string {
 	return host
 }
 
@@ -43,6 +45,10 @@ func GetAuth() string {
 	return auth
 }
 
-func GetDb() int  {
-	return  db
+func GetDb() int {
+	return db
+}
+
+func GetCluster() string {
+	return cluster
 }

@@ -37,3 +37,10 @@ func BuildRedisClient(info ConnInfo, db int) Client {
 	})
 	return cli
 }
+
+func BuildClusterClient(urls []string, auth string) Client {
+	return redis.NewClusterClient(&redis.ClusterOptions{
+		Addrs:    urls,
+		Password: auth,
+	})
+}
