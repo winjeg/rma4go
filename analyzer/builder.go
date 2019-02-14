@@ -244,9 +244,7 @@ func (stat *KeyStat) compact() {
 					tnMap[compactedKey] = oik
 
 				} else {
-					ks := make([]string, 0, defaultSize)
-					ks = append(ks, tmpMap[k]...)
-					tnMap[compactedKey] = ks
+					tnMap[compactedKey] = tmpMap[k]
 				}
 			} else {
 				tnMap[k] = tmpMap[k]
