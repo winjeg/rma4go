@@ -258,13 +258,14 @@ func (stat *KeyStat) compact() {
 			if len(k) > shrinkTo {
 				ck := k[0:shrinkTo]
 				if len(tnMap[ck]) == len(tmpMap[k]) && len(tnMap[ck]) > 1 {
-					x := make([]string, 0, defaultSize)
-					tnMap[k] = append(x, tnMap[ck]...)
+					tnMap[k] = tnMap[ck]
 					delete(tnMap, ck)
 				}
 			}
 		}
 		tmpMap = tnMap
+		// memory need to be released after use
+		tnMap = nil
 		shrinkTo --
 	}
 
@@ -294,4 +295,6 @@ func (stat *KeyStat) compact() {
 		}
 	}
 	stat.Distribution = dists
+	// memory need to be released after use
+	tmpMap = nil
 }

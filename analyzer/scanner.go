@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	scanCount   = 64
-	compactSize = 40960
+	scanCount   = 256
+	compactSize = 10240
 
 	// cause the real memory used by redis is a little bigger than the content
 	// here we plus some extra space for different key types, it's not accurate but the result will be better
@@ -27,7 +27,6 @@ func ScanAllKeys(cli redis.UniversalClient) RedisStat {
 			count += len(ks)
 			MergeKeyMeta(cli, supportMemUsage, ks, &stat)
 		}
-		// MergeKeyMeta(cli, ks, &stat)
 		for cursor > 0 && err == nil {
 			MergeKeyMeta(cli, supportMemUsage, ks, &stat)
 			count += len(ks)
@@ -39,16 +38,18 @@ func ScanAllKeys(cli redis.UniversalClient) RedisStat {
 					MergeKeyMeta(cli, supportMemUsage, ks, &stat)
 				}
 			}
-		}
-		// compact for every 40k keys
-		if len(stat.All.Distribution) > compactSize {
-			stat.Compact()
+			// compact for every 40k keys
+			if len(stat.All.Distribution) > compactSize {
+				fmt.Printf("compacting...   current size:%d\n", count)
+				stat.Compact()
+			}
 		}
 	}
 	fmt.Println("total count", count)
 	stat.Compact()
 	return stat
 }
+
 
 func MergeKeyMeta(cli redis.UniversalClient, supportMemUsage bool, ks []string, stat *RedisStat) {
 	for i := range ks {

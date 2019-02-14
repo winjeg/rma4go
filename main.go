@@ -1,17 +1,23 @@
 package main
 
 import (
-	"flag"
 	"github.com/winjeg/redis"
 	"github.com/winjeg/rma4go/analyzer"
 	"github.com/winjeg/rma4go/client"
 	"github.com/winjeg/rma4go/cmder"
+
+	"flag"
+	// _ "net/http/pprof"
 	"strings"
 )
 
 type Client = redis.UniversalClient
 
 func main() {
+	//go func() {
+	//	http.ListenAndServe("0.0.0.0:8899", nil)
+	//}()
+
 	flag.Parse()
 	if cmder.ShowHelp() {
 		flag.Usage()

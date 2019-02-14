@@ -22,7 +22,7 @@ func init() {
 	flag.IntVar(&port, "p", 6379, "port of the redis")
 	flag.StringVar(&auth, "a", "", "password/auth of the redis")
 	flag.IntVar(&db, "d", 0, "db of the redis to analyze")
-	flag.StringVar(&cluster, "c", "", "cluster info separated by comma, like localhost:123,localhost:456")
+	flag.StringVar(&cluster, "c", "",  "cluster info separated by comma, like localhost:123,localhost:456")
 
 	flag.Usage = usage
 }

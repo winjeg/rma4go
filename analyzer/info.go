@@ -2,6 +2,7 @@ package analyzer
 
 import (
 	"errors"
+	"fmt"
 	"github.com/winjeg/redis"
 	"regexp"
 	"strconv"
@@ -20,6 +21,7 @@ type redisInfo map[string]map[string]string
 func getRedisMetaInfo(cli redis.UniversalClient) redisInfo {
 	infoStr, err := cli.Info().Result()
 	if err != nil {
+		fmt.Println(err.Error())
 		return nil
 	}
 	strings.Split(infoStr, "\n")
