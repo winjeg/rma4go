@@ -68,6 +68,7 @@ cluster:    rma4go -c "localhost:123,localhost:124,localhost:1234" -a "password"
     	port of the redis (default 6379)
   -r string
     	address of a redis (default "localhost")
+  -m match a pattern to scan 
 ```
 
 ## sample output

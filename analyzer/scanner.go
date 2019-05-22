@@ -4,6 +4,7 @@ package analyzer
 import (
 	"fmt"
 	"github.com/winjeg/redis"
+	"github.com/winjeg/rma4go/cmder"
 )
 
 const (
@@ -19,7 +20,7 @@ const (
 func ScanAllKeys(cli redis.UniversalClient) RedisStat {
 	supportMemUsage := checkSupportMemUsage(cli)
 	var stat RedisStat
-	scmd := cli.Scan(0, "*", scanCount)
+	scmd := cli.Scan(0, cmder.GetMatch(), scanCount)
 	count := 0
 	if scmd != nil {
 		ks, cursor, err := scmd.Result()
@@ -30,7 +31,7 @@ func ScanAllKeys(cli redis.UniversalClient) RedisStat {
 		for cursor > 0 && err == nil {
 			MergeKeyMeta(cli, supportMemUsage, ks, &stat)
 			count += len(ks)
-			scmd = cli.Scan(cursor, "*", scanCount)
+			scmd = cli.Scan(cursor, cmder.GetMatch(), scanCount)
 			ks, cursor, err = scmd.Result()
 			if cursor == 0 {
 				if len(ks) > 0 {
