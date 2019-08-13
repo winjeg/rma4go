@@ -263,7 +263,7 @@ func (stat *KeyStat) compact() {
 		}
 		tmpMap = tnMap
 		// memory need to be released after use
-		tnMap = nil
+		// tnMap = nil
 		shrinkTo --
 	}
 
@@ -294,5 +294,5 @@ func (stat *KeyStat) compact() {
 	}
 	stat.Distribution = dists
 	// memory need to be released after use
-	tmpMap = nil
+	// tmpMap = nil
 }
