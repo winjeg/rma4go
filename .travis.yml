@@ -7,6 +7,8 @@ script:
 - export VERSION_TAG=$(git describe --tags --abbrev=0)
 - GOOS=linux GOARCH=amd64 go build -o rma4go-${VERSION_TAG}-linux-amd64 github.com/winjeg/rma4go
 - GOOS=darwin GOARCH=amd64 go build -o rma4go-${VERSION_TAG}-darwin-amd64 github.com/winjeg/rma4go
+- go test ./...  -race -coverprofile=coverage.txt -covermode=atomic
+
 deploy:
   provider: releases
   api_key:
@@ -17,3 +19,6 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
