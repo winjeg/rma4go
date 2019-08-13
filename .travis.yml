@@ -1,6 +1,8 @@
 language: go
 go:
 - 1.11.x
+services:
+  - redis-server
 go_import_path: github.com/winjeg/rma4go
 before_install: GO111MODULE=on go mod vendor
 script:
