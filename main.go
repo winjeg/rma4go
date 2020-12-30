@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github.com/winjeg/redis"
 	"github.com/winjeg/rma4go/analyzer"
 	"github.com/winjeg/rma4go/client"
 	"github.com/winjeg/rma4go/cmder"
+	"strconv"
 
 	"flag"
 	// _ "net/http/pprof"
@@ -31,18 +33,26 @@ func printKeyStat() {
 	cluster := cmder.GetCluster()
 	if len(cluster) > 0 {
 		urls := strings.Split(cluster, ",")
-		cli = client.BuildClusterClient(urls, cmder.GetAuth())
-	} else {
-		h := cmder.GetHost()
-		a := cmder.GetAuth()
-		p := cmder.GetPort()
-		cli = client.BuildRedisClient(client.ConnInfo{
-			Host: h,
-			Auth: a,
-			Port: p,
-		}, cmder.GetDb())
-	}
+		for _, v := range urls {
+			hp := strings.Split(v, ":")
+			port, _ := strconv.Atoi(hp[1])
+			cli = client.BuildRedisClient(client.ConnInfo{
+				Host: hp[0],
+				Auth: cmder.GetAuth(),
+				Port: port,
+			}, cmder.GetDb())
+			stat := analyzer.ScanAllKeys(cli)
+			fmt.Printf("analysis result for:%s is as follows\n", v)
+			stat.Print()
+		}
 
-	stat := analyzer.ScanAllKeys(cli)
-	stat.Print()
+	} else {
+		cli = client.BuildRedisClient(client.ConnInfo{
+			Host: cmder.GetHost(),
+			Auth: cmder.GetAuth(),
+			Port: cmder.GetPort(),
+		}, cmder.GetDb())
+		stat := analyzer.ScanAllKeys(cli)
+		stat.Print()
+	}
 }

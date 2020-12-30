@@ -8,3 +8,5 @@ require (
 	github.com/olekukonko/tablewriter v0.0.1
 	github.com/winjeg/redis v1.0.0
 )
+
+go 1.13

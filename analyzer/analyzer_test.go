@@ -3,10 +3,11 @@ package analyzer
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/winjeg/rma4go/client"
 	"io/ioutil"
 	"os"
 	"testing"
+
+	"github.com/winjeg/rma4go/client"
 )
 
 
