@@ -1,9 +1,10 @@
 package analyzer
 
 import (
+	"github.com/go-redis/redis/v8"
+
 	"errors"
 	"fmt"
-	"github.com/winjeg/redis"
 	"regexp"
 	"strconv"
 	"strings"
