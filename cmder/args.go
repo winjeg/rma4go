@@ -7,12 +7,11 @@ import (
 )
 
 var (
-	host    string
-	port    int
-	auth    string
-	db      int
-	help    bool
-	cluster string
+	host    =  "127.0.0.1"
+	port    = 6379
+	auth    = ""
+	db      = 0
+	help    = false
 	match   string
 )
 
@@ -24,7 +23,6 @@ func init() {
 	flag.StringVar(&auth, "a", "", "password/auth of the redis")
 	flag.StringVar(&match, "m", "*", "match the pattern to scan, like 'a*'")
 	flag.IntVar(&db, "d", 0, "db of the redis to analyze")
-	flag.StringVar(&cluster, "c", "", "cluster info separated by comma, like localhost:123,localhost:456")
 	flag.Usage = usage
 }
 
@@ -50,10 +48,11 @@ func GetDb() int {
 	return db
 }
 
-func GetCluster() string {
-	return cluster
-}
-
 func GetMatch() string {
 	return match
 }
+
+func ShowHelp() bool {
+	return help
+}
+

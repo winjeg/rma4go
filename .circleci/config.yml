@@ -29,7 +29,7 @@ jobs:
           name: Install Redis Tools
           command: |
             apt-get update && apt install -y redis-tools
-            redis-cli mset a b c d e f g h i j k l
+            echo -e "mset a b c d e f g h i j k l\n expire a 1800\n expire e 60000\n expire c 100000\nhset k1 f1 v1\n lpush l1 v1\n zadd z3 10 v1\nsadd s2 v1" | redis-cli
       - run:
           name: Run tests
           command: |

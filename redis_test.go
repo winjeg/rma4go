@@ -1,7 +1,11 @@
 package main
 
-import "testing"
+import (
+	"github.com/winjeg/rma4go/cmder"
+
+	"testing"
+)
 
 func TestPrintStat(t *testing.T) {
-	printKeyStat("127.0.0.1", "", 6379)
+	printKeyStat(cmder.GetHost(), cmder.GetAuth(), cmder.GetPort())
 }
