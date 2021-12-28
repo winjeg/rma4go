@@ -23,7 +23,7 @@ func TestBuildRedisStat(t *testing.T) {
 	if er != nil {
 		fmt.Println(er.Error())
 	}
-	err := ioutil.WriteFile(`E:\desktop\a.json`, d, os.ModeAppend)
+	err := ioutil.WriteFile(`a.json`, d, os.ModeAppend)
 	if err != nil {
 		t.FailNow()
 	}

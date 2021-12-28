@@ -20,14 +20,14 @@ func main() {
 		flag.Usage()
 		return
 	}
-	printKeyStat()
+	printKeyStat(cmder.GetHost(), cmder.GetAuth(), cmder.GetPort())
 }
 
-func printKeyStat() {
+func printKeyStat(host, auth string, port int) {
 	var cli = client.BuildRedisClient(client.ConnInfo{
-		Host: cmder.GetHost(),
-		Auth: cmder.GetAuth(),
-		Port: cmder.GetPort(),
+		Host: host,
+		Auth: auth,
+		Port: port,
 	}, cmder.GetDb())
 	stat := analyzer.ScanAllKeys(cli)
 	stat.Print()
