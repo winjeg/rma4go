@@ -2,7 +2,8 @@
 package client
 
 import (
-	"github.com/winjeg/redis"
+	"github.com/go-redis/redis/v8"
+	"strings"
 
 	"fmt"
 )
@@ -28,13 +29,23 @@ func BuildRedisClient(info ConnInfo, db int) Client {
 	if len(info.Host) == 0 || info.Port < 0 || info.Port > 65535 {
 		return nil
 	}
-
-	cli := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%d", info.Host, info.Port),
-		Password: info.Auth, // no password set
-		DB:       db,
-		PoolSize: defaultPoolSize,
-	})
+	addr := fmt.Sprintf("%s:%d", info.Host, info.Port)
+	var options *redis.Options
+	if len(strings.TrimSpace(info.Auth)) == 0 {
+		options = &redis.Options{
+			Addr:     addr,
+			DB:       db,
+			PoolSize: defaultPoolSize,
+		}
+	} else {
+		options = &redis.Options{
+			Addr:     addr,
+			DB:       db,
+			Password: info.Auth,
+			PoolSize: defaultPoolSize,
+		}
+	}
+	cli := redis.NewClient(options)
 	return cli
 }
 

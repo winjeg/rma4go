@@ -2,9 +2,10 @@
 package analyzer
 
 import (
-	"fmt"
 	"github.com/fatih/color"
 	"github.com/olekukonko/tablewriter"
+
+	"fmt"
 	"os"
 )
 

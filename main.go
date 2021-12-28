@@ -1,25 +1,20 @@
 package main
 
 import (
-	"fmt"
-	"github.com/winjeg/redis"
+	"github.com/go-redis/redis/v8"
 	"github.com/winjeg/rma4go/analyzer"
 	"github.com/winjeg/rma4go/client"
 	"github.com/winjeg/rma4go/cmder"
-	"strconv"
 
 	"flag"
-	// _ "net/http/pprof"
+	"fmt"
+	"strconv"
 	"strings"
 )
 
 type Client = redis.UniversalClient
 
 func main() {
-	//go func() {
-	//	http.ListenAndServe("0.0.0.0:8899", nil)
-	//}()
-
 	flag.Parse()
 	if cmder.ShowHelp() {
 		flag.Usage()
@@ -29,6 +24,18 @@ func main() {
 }
 
 func printKeyStat() {
+	var cli = client.BuildRedisClient(client.ConnInfo{
+		Host: cmder.GetHost(),
+		Auth: cmder.GetAuth(),
+		Port: cmder.GetPort(),
+	}, cmder.GetDb())
+	stat := analyzer.ScanAllKeys(cli)
+	stat.Print()
+}
+
+// not supported currently
+//scan across the cluster is not supported by the driver
+func doClusterStat() {
 	var cli Client
 	cluster := cmder.GetCluster()
 	if len(cluster) > 0 {
@@ -45,14 +52,5 @@ func printKeyStat() {
 			fmt.Printf("analysis result for:%s is as follows\n", v)
 			stat.Print()
 		}
-
-	} else {
-		cli = client.BuildRedisClient(client.ConnInfo{
-			Host: cmder.GetHost(),
-			Auth: cmder.GetAuth(),
-			Port: cmder.GetPort(),
-		}, cmder.GetDb())
-		stat := analyzer.ScanAllKeys(cli)
-		stat.Print()
 	}
 }

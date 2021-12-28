@@ -25,7 +25,6 @@ func init() {
 	flag.StringVar(&match, "m", "*", "match the pattern to scan, like 'a*'")
 	flag.IntVar(&db, "d", 0, "db of the redis to analyze")
 	flag.StringVar(&cluster, "c", "", "cluster info separated by comma, like localhost:123,localhost:456")
-
 	flag.Usage = usage
 }
 

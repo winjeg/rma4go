@@ -57,15 +57,13 @@ rma4go usage:
 standalone:  rma4go -r some_host -p 6379 -a password -d 0
 cluster:    rma4go -c "localhost:123,localhost:124,localhost:1234" -a "password"
 ======================================================
+  -h help content
   -H string
     	address of a redis (default "localhost")
   -a string
     	password/auth of the redis
-  -c string
-    	cluster info separated by comma, like localhost:123,localhost:456
   -d int
     	db of the redis to analyze
-  -h	help content
   -p int
     	port of the redis (default 6379)
   -r string
@@ -74,53 +72,8 @@ cluster:    rma4go -c "localhost:123,localhost:124,localhost:1234" -a "password"
 ```
 
 ## sample output
-
-```
-all keys statistics
-
-| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
-|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
-| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
-string keys statistics
-
-| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
-|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
-| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
-list keys statistics
-
-| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
-|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
-| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
-hash keys statistics
-
-| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
-|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
-| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
-set keys statistics
-
-| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
-|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
-| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
-zset keys statistics
-
-| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
-|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
-| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
-other keys statistics
-
-| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
-|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
-| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
-big keys statistics
-
-| PATTERN | KEY NUM | KEY SIZE | DATA SIZE | EXPIRE IN HOUR | EXPIRE IN DAY | EXPIRE IN WEEK | EXPIRE OUT WEEK | NEVER EXPIRE |
-|---------|---------|----------|-----------|----------------|---------------|----------------|-----------------|--------------|
-| total   |       0 |        0 |         0 |              0 |             0 |              0 |               0 |            0 |
-
-```
 rendered by markdown 
 total count 4004
-
 
 all keys statistics
 

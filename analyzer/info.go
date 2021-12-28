@@ -1,6 +1,7 @@
 package analyzer
 
 import (
+	"context"
 	"github.com/go-redis/redis/v8"
 
 	"errors"
@@ -20,7 +21,7 @@ type redisInfo map[string]map[string]string
 
 // get parsed redis info
 func getRedisMetaInfo(cli redis.UniversalClient) redisInfo {
-	infoStr, err := cli.Info().Result()
+	infoStr, err := cli.Info(context.Background()).Result()
 	if err != nil {
 		fmt.Println(err.Error())
 		return nil
@@ -28,7 +29,7 @@ func getRedisMetaInfo(cli redis.UniversalClient) redisInfo {
 	strings.Split(infoStr, "\n")
 	d := strings.Split(infoStr, "\n")
 	result := make(map[string]map[string]string, defaultSize)
-	var lastMap map[string]string
+	var lastMap = make(map[string]string, defaultSize)
 	var lastSection string
 	for _, v := range d {
 		if len(strings.TrimSpace(v)) == 0 {
