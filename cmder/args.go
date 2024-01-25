@@ -7,12 +7,14 @@ import (
 )
 
 var (
-	host    =  "127.0.0.1"
-	port    = 6379
-	auth    = ""
-	db      = 0
-	help    = false
-	match   string
+	host  = "127.0.0.1"
+	port  = 6379
+	pass  = ""
+	db    = 0
+	help  = false
+	match string
+	tls   = false
+	user  = ""
 )
 
 func init() {
@@ -20,9 +22,11 @@ func init() {
 	flag.StringVar(&host, "H", "localhost", "address of a redis")
 	flag.StringVar(&host, "r", "localhost", "address of a redis")
 	flag.IntVar(&port, "p", 6379, "port of the redis")
-	flag.StringVar(&auth, "a", "", "password/auth of the redis")
+	flag.StringVar(&pass, "a", "", "password/auth of the redis")
 	flag.StringVar(&match, "m", "*", "match the pattern to scan, like 'a*'")
 	flag.IntVar(&db, "d", 0, "db of the redis to analyze")
+	flag.BoolVar(&tls, "tls", false, "enable tls")
+	flag.StringVar(&user, "u", "", "user/auth of the redis")
 	flag.Usage = usage
 }
 
@@ -40,8 +44,17 @@ func GetHost() string {
 func GetPort() int {
 	return port
 }
-func GetAuth() string {
-	return auth
+
+func GetPass() string {
+	return pass
+}
+
+func GetUser() string {
+	return user
+}
+
+func GetTLS() bool {
+	return tls
 }
 
 func GetDb() int {
@@ -55,4 +68,3 @@ func GetMatch() string {
 func ShowHelp() bool {
 	return help
 }
-

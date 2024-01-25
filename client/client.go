@@ -2,10 +2,10 @@
 package client
 
 import (
+	"crypto/tls"
+	"fmt"
 	"github.com/go-redis/redis/v8"
 	"strings"
-
-	"fmt"
 )
 
 type Client = redis.UniversalClient
@@ -15,7 +15,9 @@ const defaultPoolSize = 3
 type ConnInfo struct {
 	Host string
 	Port int
-	Auth string
+	Pass string
+	User string
+	Tls  bool
 }
 
 func BuildRedisClient(info ConnInfo, db int) Client {
@@ -31,7 +33,7 @@ func BuildRedisClient(info ConnInfo, db int) Client {
 	}
 	addr := fmt.Sprintf("%s:%d", info.Host, info.Port)
 	var options *redis.Options
-	if len(strings.TrimSpace(info.Auth)) == 0 {
+	if len(strings.TrimSpace(info.Pass)) == 0 {
 		options = &redis.Options{
 			Addr:     addr,
 			DB:       db,
@@ -41,10 +43,15 @@ func BuildRedisClient(info ConnInfo, db int) Client {
 		options = &redis.Options{
 			Addr:     addr,
 			DB:       db,
-			Password: info.Auth,
+			Username: info.User,
+			Password: info.Pass,
 			PoolSize: defaultPoolSize,
 		}
 	}
+	if info.Tls {
+		options.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+	}
+
 	cli := redis.NewClient(options)
 	return cli
 }

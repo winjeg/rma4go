@@ -10,11 +10,10 @@ import (
 	"testing"
 )
 
-
 var cli = client.BuildRedisClient(client.ConnInfo{
 	Host: "localhost",
 	Port: 6379,
-	Auth: "",
+	Pass: "",
 }, 0)
 
 func TestBuildRedisStat(t *testing.T) {
@@ -43,7 +42,7 @@ func TestCompVersion(t *testing.T) {
 		t.FailNow()
 	}
 	r2, err := compareVersion("2.0.2", "2.0.1")
-	if err != nil || r2 !=1  {
+	if err != nil || r2 != 1 {
 		t.FailNow()
 	}
 	r3, err := compareVersion("2.2", "2.0.1")
