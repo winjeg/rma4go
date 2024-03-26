@@ -7,5 +7,5 @@ import (
 )
 
 func TestPrintStat(t *testing.T) {
-	printKeyStat(cmder.GetHost(), cmder.GetAuth(), cmder.GetPort())
+	printKeyStat(cmder.GetHost(), cmder.GetUser(), cmder.GetPass(), cmder.GetPort(), cmder.GetTLS())
 }
