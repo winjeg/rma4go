@@ -12,7 +12,7 @@ on:
 jobs:
   container-job:
       runs-on: ubuntu-latest
-      container: node:10.18-jessie  
+      container: golang:alpine3.18
       services:
         redis:
           image: redis
@@ -21,6 +21,8 @@ jobs:
             --health-interval 10s
             --health-timeout 5s
             --health-retries 5
+          ports:
+          - 6379:6379
       steps:
       - uses: actions/checkout@v3
   
@@ -34,9 +36,4 @@ jobs:
   
       - name: Test
         run: go test -v ./...
-        env:
-          # The hostname used to communicate with the Redis service container
-          REDIS_HOST: redis
-          # The default Redis port
-          REDIS_PORT: 6379
 
