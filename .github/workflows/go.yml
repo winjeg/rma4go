@@ -12,7 +12,6 @@ on:
 jobs:
   container-job:
       runs-on: ubuntu-latest
-      container: golang:alpine3.18
       services:
         redis:
           image: redis
