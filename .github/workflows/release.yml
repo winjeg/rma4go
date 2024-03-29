@@ -22,4 +22,4 @@ jobs:
           args: release --rm-dist
           workdir: .
         env:
-          GITHUB_TOKEN: ${GEN_TOKEN}
+          GITHUB_TOKEN: ${{ GEN_TOKEN }}
