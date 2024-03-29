@@ -3,6 +3,8 @@ on:
   push:
     tags:
       - 'v*.*.*'
+permissions:
+  contents: write
 jobs:
   # job's id
   release:
@@ -20,7 +22,6 @@ jobs:
         uses: goreleaser/goreleaser-action@master
         with:
           version: latest
-          args: release --rm-dist
-          workdir: .
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GEN_TOKEN }}
