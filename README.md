@@ -5,6 +5,7 @@
 [![codecov](https://codecov.io/gh/winjeg/rma4go/branch/master/graph/badge.svg)](https://codecov.io/gh/winjeg/rma4go)
 [![Mit License](https://img.shields.io/badge/license-MIT-blue)]('./LICENSE')
 ![MinVer](https://img.shields.io/badge/Golang-1.13-blue)
+[![Goproxy.cn](https://goproxy.cn/stats/github.com/winjeg/rma4go/badges/download-count.svg)](https://goproxy.cn)
 
 `rma4go` (redis memory analyzer for golang) is a online redis memory analyzer.
 It's light and easy to use, and prints out a pretty markdown table
